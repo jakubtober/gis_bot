@@ -1,11 +1,11 @@
-from utils.selenium_browser import SeleniumBrowser
 from utils.beautiful_soup_browser import BeautifulSoupBrowser
+from utils.facebook_client import FacebookClient
 
 
 
 if __name__ == "__main__":
-    selenium_browser = SeleniumBrowser()
     beautiful_soup__browser = BeautifulSoupBrowser()
+    facebook_client = FacebookClient()
 
     article_urls = beautiful_soup__browser._get_articles_urls()
     last_article_url = beautiful_soup__browser._get_last_article_url()
@@ -14,3 +14,7 @@ if __name__ == "__main__":
 
     print(last_artcile.article_date)
     print(last_artcile.article_text)
+
+    facebook_client.get_all_posts()
+
+    print(facebook_client.all_posts)
