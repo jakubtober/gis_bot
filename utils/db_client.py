@@ -31,4 +31,9 @@ class DbConnectionClient:
 
     def get_all_db_posts(self):
         # Until we have running database we will use mocked data
-        return [("Test title", "Test post text")]
+        return [
+            (
+                "Wycofanie produktu pn. Rizi, Olej z ryżu - aktualizacja z 12 sierpnia 2020 r. - GIS",
+                "13.08.2020",
+            ),
+        ]

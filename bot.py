@@ -18,7 +18,8 @@ if __name__ == "__main__":
         last_article.article_title, last_article.article_text,
     )
 
-    # We will keep part where bot posts message until we have running database
-    # to check history of pubnlished posts first
-
-    # facebook_client.publish_post(message, last_article_url)
+    for post in all_db_posts:
+        if all(
+                [(last_article.article_title not in post), (last_article.article_date not in post)]
+        ):
+            facebook_client.publish_post(message, last_article_url)
