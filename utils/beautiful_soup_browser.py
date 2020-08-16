@@ -18,7 +18,7 @@ class BeautifulSoupBrowser:
     def _get_articles_urls(self):
         articles_list = []
         response = requests.get(self.MAIN_GIS_URL)
-        soup = BeautifulSoup(response.text, 'html.parser')
+        soup = BeautifulSoup(response.text, "html.parser")
         articles_list_elements = soup.find_all("div", class_="category-list__item")
 
         for article in articles_list_elements:
@@ -35,9 +35,16 @@ class BeautifulSoupBrowser:
 
     def get_last_article(self):
         response = requests.get(self._get_last_article_url())
-        soup = BeautifulSoup(response.text, 'html.parser')
+        soup = BeautifulSoup(response.text, "html.parser")
         article_title = soup.find_all("title")[0].get_text()
-        article_date = soup.find_all("div", class_="single-post__date")[0].get_text().replace(" ", "").replace("\n", "")
-        article_content = soup.find_all("div", class_="single-post__content")[0].get_text()
+        article_date = (
+            soup.find_all("div", class_="single-post__date")[0]
+            .get_text()
+            .replace(" ", "")
+            .replace("\n", "")
+        )
+        article_content = soup.find_all("div", class_="single-post__content")[
+            0
+        ].get_text()
 
         return Article(article_title, article_content, article_date)
