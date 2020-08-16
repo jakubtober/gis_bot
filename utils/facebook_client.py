@@ -8,7 +8,7 @@ class FacebookClient:
     USER_ID_FB_REQUEST_URL = r"https://graph.facebook.com/v3.0/me?access_token="
 
     def __init__(self):
-        self.access_token = os.getenv("FB_ACCESS_TOKEN", "xxxxxxx")
+        self.access_token = os.getenv("FB_ACCESS_TOKEN", "secret_token_string")
 
         user_id_response = requests.get(f"{self.USER_ID_FB_REQUEST_URL}{self.access_token}")
         self.user_id = json.loads(user_id_response.text)
@@ -18,7 +18,6 @@ class FacebookClient:
         self.page_access_token = page_response_json["data"][0]["access_token"]
 
         self.graph = facebook.GraphAPI(access_token=self.page_access_token, version="2.12")
-        self.all_posts = self.get_all_posts()
 
     @staticmethod
     def generate_message_content(article_title: str, article_text: str):
