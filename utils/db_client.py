@@ -28,12 +28,8 @@ class DbConnectionClient:
         # self.db_connection = psycopg2.connect(DB_CONNECTION_STRING)
         # self.cursor = db_connection.cursor()
         self.cursor = None
+        self.all_posts = []
 
     def get_all_db_posts(self):
         # Until we have running database we will use mocked data
-        return [
-            (
-                "Wycofanie produktu pn. Rizi, Olej z ryżu - aktualizacja z 12 sierpnia 2020 r. - GIS",
-                "13.08.2020",
-            ),
-        ]
+        return self.all_posts
