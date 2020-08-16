@@ -5,10 +5,12 @@ import requests
 
 
 class FacebookClient:
+    USER_ID_FB_REQUEST_URL = r"https://graph.facebook.com/v3.0/me?access_token="
+
     def __init__(self):
         self.access_token = os.getenv("FB_ACCESS_TOKEN", "xxxxxxx")
 
-        user_id_response = requests.get(f"https://graph.facebook.com/v3.0/me?access_token={self.access_token}")
+        user_id_response = requests.get(f"{self.USER_ID_FB_REQUEST_URL}{self.access_token}")
         self.user_id = json.loads(user_id_response.text)
 
         page_response_json = json.loads(requests.get(f"https://graph.facebook.com/v3.0/{self.user_id['id']}/accounts?access_token={self.access_token}").text)
@@ -19,7 +21,7 @@ class FacebookClient:
         self.all_posts = self.get_all_posts()
 
     @staticmethod
-    def generate_message_content(self, article_title: str, article_text: str):
+    def generate_message_content(article_title: str, article_text: str):
         message = f"""❗️❗️{article_title}❗️❗️\
         {article_text}\nŹródło (w linku poniżej):
         """

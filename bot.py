@@ -17,4 +17,3 @@ if __name__ == "__main__":
         last_article.article_text,
     )
     # facebook_client.publish_post(message, last_article_url)
-
