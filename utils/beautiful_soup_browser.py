@@ -10,26 +10,27 @@ class Article:
 
 
 class BeautifulSoupBrowser:
-    MAIN_GIS_URL = r"https://gis.gov.pl/kategoria/zywnosc-i-woda/normy-i-prawo/ostrzezenia-publiczne-dot-zywnosci/"
+    BASE_GIS_URL = r"https://www.gov.pl"
+    GIS_WARNINGS_URL = r"https://www.gov.pl/web/gis/ostrzezenia"
 
     def __init__(self):
         pass
 
     def _get_articles_urls(self):
-        articles_list = []
-        response = requests.get(self.MAIN_GIS_URL)
+        articles_urls = []
+        response = requests.get(self.GIS_WARNINGS_URL)
         soup = BeautifulSoup(response.text, "html.parser")
-        articles_list_elements = soup.find_all("div", class_="category-list__item")
+        list_of_articles_list = soup.find_all("div", class_="art-prev art-prev--near-menu")[0].ul.find_all("li")
 
-        for article in articles_list_elements:
-            url = article.a["href"]
-            articles_list.append(url)
+        for list_element in list_of_articles_list:
+            url = list_element.a["href"]
+            articles_urls.append(url)
 
-        return articles_list
+        return articles_urls
 
     def _get_last_article_url(self):
         try:
-            return self._get_articles_urls()[0]
+            return self.BASE_GIS_URL + self._get_articles_urls()[0]
         except Exception:
             return None
 
@@ -37,14 +38,7 @@ class BeautifulSoupBrowser:
         response = requests.get(self._get_last_article_url())
         soup = BeautifulSoup(response.text, "html.parser")
         article_title = soup.find_all("title")[0].get_text()
-        article_date = (
-            soup.find_all("div", class_="single-post__date")[0]
-            .get_text()
-            .replace(" ", "")
-            .replace("\n", "")
-        )
-        article_content = soup.find_all("div", class_="single-post__content")[
-            0
-        ].get_text()
+        article_date = ""
+        article_content = ""
 
         return Article(article_title, article_content, article_date)
