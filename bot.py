@@ -4,7 +4,7 @@ import config
 from beautiful_soup_browser import BeautifulSoupBrowser
 
 
-class Bot():
+class Bot:
     def __init__(self):
         self.beautiful_soup_browser = BeautifulSoupBrowser()
 
@@ -30,5 +30,6 @@ async def main():
         finally:
             # add logger event
             await asyncio.sleep(config.DELAY_IN_SECONDS)
+
 
 asyncio.run(main())

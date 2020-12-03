@@ -36,9 +36,10 @@ class BeautifulSoupBrowser:
 
     def _get_last_article_url(self) -> Union[str, None]:
         article_urls = self._get_articles_urls()
-        last_article_on_the_list_url = self.BASE_GIS_URL + article_urls[0] if article_urls else None
+        last_article_on_the_list_url = (
+            self.BASE_GIS_URL + article_urls[0] if article_urls else None
+        )
         return last_article_on_the_list_url
-
 
     def get_last_article(self) -> Union[Article, None]:
         last_article_url = self._get_last_article_url()
