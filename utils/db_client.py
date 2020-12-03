@@ -19,7 +19,7 @@ DB_CONNECTION_STRING = "postgres://{}:{}@{}/{}?port={}".format(
 
 class DbConnectionClient:
     def __init__(self):
-        # We will leave it commented until we have db set up and running
+        # It will be commented out when we have db set up and running
         # if DB_CONNECTION_STRING is None:
         #     raise AttributeError(
         #         "Connection string to database is not defined."
