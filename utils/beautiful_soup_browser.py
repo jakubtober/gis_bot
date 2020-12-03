@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from typing import Union
 
 
 class Article:
@@ -16,29 +17,39 @@ class BeautifulSoupBrowser:
     def __init__(self):
         pass
 
-    def _get_articles_urls(self):
+    def _get_articles_urls(self) -> list:
         articles_urls = []
-        response = requests.get(self.GIS_WARNINGS_URL)
-        soup = BeautifulSoup(response.text, "html.parser")
-        list_of_articles_list = soup.find_all("div", class_="art-prev art-prev--near-menu")[0].ul.find_all("li")
-
-        for list_element in list_of_articles_list:
-            url = list_element.a["href"]
-            articles_urls.append(url)
-
-        return articles_urls
-
-    def _get_last_article_url(self):
         try:
-            return self.BASE_GIS_URL + self._get_articles_urls()[0]
-        except Exception:
+            response = requests.get(self.GIS_WARNINGS_URL)
+            soup = BeautifulSoup(response.text, "html.parser")
+            articles_div = soup.find_all("div", class_="art-prev art-prev--near-menu")
+            list_of_articles = articles_div[0].ul.find_all("li") if articles_div else []
+
+            for list_element in list_of_articles:
+                url = list_element.a["href"]
+                articles_urls.append(url)
+
+            return articles_urls
+        except Exception as e:
+            # add logger event
+            raise
+
+    def _get_last_article_url(self) -> Union[str, None]:
+        article_urls = self._get_articles_urls()
+        last_article_on_the_list_url = self.BASE_GIS_URL + article_urls[0] if article_urls else None
+        return last_article_on_the_list_url
+
+
+    def get_last_article(self) -> Union[Article, None]:
+        last_article_url = self._get_last_article_url()
+
+        if last_article_url:
+            response = requests.get(last_article_url)
+            soup = BeautifulSoup(response.text, "html.parser")
+            article_title = soup.find_all("title")[0].get_text()
+            article_date = ""
+            article_content = ""
+            return Article(article_title, article_content, article_date)
+        else:
+            # add logger event
             return None
-
-    def get_last_article(self):
-        response = requests.get(self._get_last_article_url())
-        soup = BeautifulSoup(response.text, "html.parser")
-        article_title = soup.find_all("title")[0].get_text()
-        article_date = ""
-        article_content = ""
-
-        return Article(article_title, article_content, article_date)
