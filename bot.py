@@ -31,6 +31,7 @@ async def main():
     while True:
         try:
             await bot.check_articles()
+            sys.stdout.flush()
         except Exception as e:
             await asyncio.sleep(config.RETRY_IN_SECONDS)
             # add logger event
