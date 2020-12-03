@@ -2,8 +2,15 @@ import asyncio
 
 import config
 from beautiful_soup_browser import BeautifulSoupBrowser
+import logging
 import sys
 
+
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+handler = logging.StreamHandler(sys.stdout)
+handler.setLevel(logging.DEBUG)
+logger.addHandler(handler)
 
 class Bot:
     def __init__(self):
@@ -12,10 +19,10 @@ class Bot:
     async def check_articles(self):
         last_article = self.beautiful_soup_browser.get_last_article()
         if last_article:
-            sys.stdout.write(f"Last article: \n{last_article.article_title}\n")
+            logger.debug(f"Last article: \n{last_article.article_title}\n")
         else:
             # add logger event
-            sys.stdout.write("Couldn't find any article on the GIS homepage...")
+            logger.debug("Couldn't find any article on the GIS homepage...")
 
 
 async def main():
