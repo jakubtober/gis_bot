@@ -8,7 +8,8 @@ import sys
 
 logging.basicConfig(
     level=logging.DEBUG,
-    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
+    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+    filename='gis.log'
 )
 
 logger = logging.getLogger()
@@ -33,7 +34,6 @@ async def main():
     while True:
         try:
             await bot.check_articles()
-            sys.stdout.flush()
         except Exception as e:
             await asyncio.sleep(config.RETRY_IN_SECONDS)
             # add logger event
