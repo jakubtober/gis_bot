@@ -1,9 +1,8 @@
 import asyncio
 
 import config
-from beautiful_soup_browser import BeautifulSoupBrowser
+from utils.beautiful_soup_browser import BeautifulSoupBrowser
 import logging
-import sys
 
 
 logging.basicConfig(
