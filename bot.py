@@ -6,11 +6,14 @@ import logging
 import sys
 
 
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+    filename='gis.log'
+)
+
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
-handler = logging.StreamHandler(sys.stdout)
-handler.setLevel(logging.DEBUG)
-logger.addHandler(handler)
+
 
 class Bot:
     def __init__(self):
