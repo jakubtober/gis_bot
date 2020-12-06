@@ -7,7 +7,7 @@ bot_scheduler = BlockingScheduler()
 bot = Bot()
 
 
-@bot_scheduler.scheduled_job("interval", minutes=1)
+@bot_scheduler.scheduled_job("interval", minutes=60)
 def check_articles():
     bot.check_articles()
 
