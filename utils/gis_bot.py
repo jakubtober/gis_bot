@@ -1,4 +1,4 @@
-from beautiful_soup_browser import BeautifulSoupBrowser
+from .beautiful_soup_browser import BeautifulSoupBrowser
 
 from config import logger
 
