@@ -4,10 +4,10 @@ from typing import Union
 
 
 class Article:
-    def __init__(self, article_title: str, article_text: str, article_date: str):
-        self.article_title = article_title
-        self.article_text = article_text
-        self.article_date = article_date
+    def __init__(self, title: str, text: str, date: str):
+        self.title = title
+        self.text = text
+        self.date = date
 
 
 class BeautifulSoupBrowser:
@@ -41,16 +41,23 @@ class BeautifulSoupBrowser:
         )
         return last_article_on_the_list_url
 
-    def get_last_article(self) -> Union[Article, None]:
-        last_article_url = self._get_last_article_url()
+    def _get_article_title_and_date(self) -> dict:
+        article_url = self._get_last_article_url()
 
-        if last_article_url:
-            response = requests.get(last_article_url)
+        if article_url:
+            response = requests.get(article_url)
             soup = BeautifulSoup(response.text, "html.parser")
-            article_title = soup.find_all("title")[0].get_text()
-            article_date = ""
-            article_content = ""
-            return Article(article_title, article_content, article_date)
-        else:
-            # add logger event
-            return None
+
+            article_title_div = soup.find_all("title")
+            article_date_div = soup.find_all("p", class_="event-date")
+
+            article_title = article_title_div[0].get_text() if article_title_div else ""
+            article_date = article_date_div[0].get_text() if article_date_div else ""
+
+            return {"title": article_title, "date": article_date}
+
+    def get_last_article(self) -> Union[Article, None]:
+        title_and_date = self._get_article_title_and_date()
+        return Article(
+            title=title_and_date["title"], date=title_and_date["date"], text=""
+        )
