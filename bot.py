@@ -1,9 +1,11 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
 
 from utils.gis_bot import Bot
+from utils.db_client import DbConnectionClient
 
 
 bot_scheduler = BlockingScheduler()
+db_connection = DbConnectionClient()
 bot = Bot()
 
 
