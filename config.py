@@ -8,5 +8,5 @@ logging.basicConfig(
 )
 logger = logging.getLogger()
 
-RETRY_IN_SECONDS = 30
-DELAY_IN_SECONDS = 30
+DELAY_IN_SECONDS = 10
+DELAY_IN_MINUTES = 60
