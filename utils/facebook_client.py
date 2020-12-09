@@ -27,20 +27,13 @@ class FacebookClient:
             access_token=self.page_access_token, version="2.12"
         )
 
-    @staticmethod
-    def generate_message_content(article_title: str, article_text: str):
-        message = f"""❗️❗️{article_title}❗️❗️\
-        {article_text}\nŹródło (w linku poniżej):
-        """
-        return message
-
     def get_all_posts(self):
         return self.graph.get_connections(id=self.page_id, connection_name="posts")
 
-    def publish_post(self, message, link):
+    def publish_post(self, title, link):
         self.graph.put_object(
             parent_object=self.page_id,
             connection_name="feed",
-            message=message,
+            message=f"""❗️❗️{title}❗️❗️""",
             link=link,
         )

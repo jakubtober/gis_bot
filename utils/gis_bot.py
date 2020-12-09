@@ -8,7 +8,7 @@ class Bot:
     def __init__(self):
         self.beautiful_soup_browser = BeautifulSoupBrowser()
 
-    def check_articles(self, db_connection):
+    def check_articles(self, db_connection, fb_client):
         last_web_article = self.beautiful_soup_browser.get_last_article()
 
         if last_web_article:
@@ -27,9 +27,15 @@ class Bot:
                 logger.debug(
                     f"Adding new article to the db, date: {last_web_article.date}, title: {last_web_article.title}"
                 )
-                add_article_to_db(db_connection, last_web_article.date, last_web_article.title)
-
-               # TODO:
-                # add post_article() method here as a next step
+                add_article_to_db(
+                    db_connection, last_web_article.date, last_web_article.title
+                )
+                logger.debug(
+                    f"Posting new article on FB, date: {last_web_article.date}, title: {last_web_article.title}"
+                )
+                fb_client.publish_post(last_web_article.title, last_web_article.url)
+                logger.debug(
+                    f"Article posted on FB, date: {last_web_article.date}, title: {last_web_article.title}"
+                )
         else:
             logger.debug("Couldn't find any articles on GIS webiste...")
