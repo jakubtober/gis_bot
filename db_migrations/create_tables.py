@@ -7,9 +7,8 @@ def create_articles_history_table(
 ) -> None:
     try:
         custom_db_connection.db_cursor.execute(
-            f"""
-        CREATE TABLE {name}(
-            id INT PRIMARY KEY NOT NULL,
+            f"""CREATE TABLE {name}(
+            id SERIAL PRIMARY KEY NOT NULL,
             date VARCHAR (50) NOT NULL,
             title VARCHAR (250) NOT NULL
         );
